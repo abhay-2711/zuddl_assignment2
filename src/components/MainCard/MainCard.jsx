@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './maincard.css'
 import Modal from '../Modal/Modal'
+import { Data } from '../../utils/data'
+import ToDoCard from '../Todo/ToDoCard'
 
 const MainCard = ({status}) => {
 
@@ -25,9 +27,18 @@ const MainCard = ({status}) => {
     setShowModal(false);
   }
   
+  const filteredData = Data.filter(item => item.status === status);
+
   return (
     <div className='maincard'>
-        <h3 className='heading'>{heading}</h3>
+        <div>
+          <h3 className='heading'>{heading}</h3>
+          <div className="todo-cards-container">
+          {filteredData.map(item => (
+            <ToDoCard key={item.id} title={item.title} image={item.image} date={item.date} attach={item.attach} />
+          ))}
+          </div>
+        </div>
         <button className='addNewTask' onClick={handleClick}>Add a Card...</button>
         {showModal && <Modal onCloseClick={handleCloseModal} />}
     </div>
