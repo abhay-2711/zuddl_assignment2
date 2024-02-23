@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { openModal } from '../../store/modalSlice';
 import './maincard.css'
 import Modal from '../Modal/Modal'
-import { Data } from '../../utils/data'
 import ToDoCard from '../Todo/ToDoCard'
 
 const MainCard = ({status}) => {
 
   const [showModal, setShowModal] = useState(false);
+
+  const dispatch = useDispatch();
 
   const categoryHeadings = {
     resources: "Resources",
@@ -20,6 +23,7 @@ const MainCard = ({status}) => {
   const handleClick = () => {
     if(!showModal){
       setShowModal(true);
+      dispatch(openModal());
     }
   }
 
@@ -27,15 +31,15 @@ const MainCard = ({status}) => {
     setShowModal(false);
   }
   
-  const filteredData = Data.filter(item => item.status === status);
+  const filteredData = useSelector(state => state.todo.todos.filter(item => item.status === status));
 
   return (
     <div className='maincard'>
         <div>
           <h3 className='heading'>{heading}</h3>
           <div className="todo-cards-container">
-          {filteredData.map(item => (
-            <ToDoCard key={item.id} title={item.title} image={item.image} date={item.date} attach={item.attach} />
+          {filteredData.map(todo => (
+            <ToDoCard key={todo.id} todo={todo} />
           ))}
           </div>
         </div>

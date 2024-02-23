@@ -4,7 +4,10 @@ import { CiCircleChevRight } from "react-icons/ci";
 import { TfiAlignLeft } from "react-icons/tfi";
 import { AiOutlinePaperClip } from "react-icons/ai";
 
-const ToDoCard = ({title, image, date, attach}) => {
+const ToDoCard = ({todo}) => {
+
+  const { title, image, date, attach } = todo;
+  
   return (
     <div className='todo'>
         <div className='imageContainer'>

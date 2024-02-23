@@ -1,13 +1,33 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../../store/todoSlice';
 import './modal.css'
 
 const Modal = ({ onCloseClick }) => {
 
+    const dispatch = useDispatch();
+    const [taskName, setTaskName] = useState('');
+    const [status, setStatus] = useState('resources');
+    const [imagePreview, setImagePreview] = useState(null);
+
     const handleSubmit = () => {
         console.log('submitting');
-    }
+        const newTodo = {
+            id: Date.now(),
+            title: taskName,
+            status: status,
+            image: imagePreview,
+            date: new Date().toLocaleDateString(),
+            attach: 5,
+        };
 
-    const [imagePreview, setImagePreview] = useState(null);
+        dispatch(addTodo(newTodo));
+
+        setTaskName('');
+        setStatus('resources');
+        setImagePreview(null);
+        onCloseClick();
+    }
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -28,9 +48,9 @@ const Modal = ({ onCloseClick }) => {
             <button className='closeModal' onClick={() => onCloseClick()}>X</button>
             </div>
             <label htmlFor='taskName' className='label'>Task Name</label>
-            <input id='taskName' className='modalInput' type='text' placeholder='Enter a task...' />
+            <input id='taskName' className='modalInput' type='text' value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder='Enter a task...' />
             <label htmlFor='status' className='label'>Status</label>
-            <select id='status' className='modalInput'>
+            <select id='status' className='modalInput' value={status} onChange={(e) => setStatus(e.target.value)}>
                 <option selected value='resources'>Resources</option> 
                 <option value='todo'>To Do</option>
                 <option value='doing'>Doing</option>
