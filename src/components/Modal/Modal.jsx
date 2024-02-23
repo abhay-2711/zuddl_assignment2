@@ -59,11 +59,17 @@ const Modal = ({ onCloseClick }) => {
             <label className='label'>Image</label>
             <label htmlFor='image' className='inputImage'>Choose Image</label>
             <input id='image' className='fileInput' type='file' accept='image/*' onChange={handleImageChange} />
-            {imagePreview && (
-                <div className='imagePreviewContainer'>
+            {imagePreview ? (
+                <div>
                     <img src={imagePreview} alt='Preview' className='imagePreview' />
                 </div>
-            )}
+            ) : 
+            (
+                <div className='imagePreviewContainer'>
+                    <p className='imagePreviewText'>No Image Choosen</p>
+                </div>
+            )
+        }
             <button className='modalSubmit' onClick={handleSubmit}>Add Card</button>
         </div>
     </div>
