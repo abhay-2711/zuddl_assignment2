@@ -1,19 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { addTodo } from '../../store/todoSlice';
+import { addTodo, updateTodo } from '../../store/todoSlice';
 import './modal.css'
 
-const Modal = ({ onCloseClick }) => {
+const Modal = ({ onCloseClick, editTodo }) => {
 
     const dispatch = useDispatch();
     const [taskName, setTaskName] = useState('');
     const [status, setStatus] = useState('resources');
     const [imagePreview, setImagePreview] = useState(null);
 
+    useEffect(() => {
+        if (editTodo) {
+            setTaskName(editTodo.title);
+            setStatus(editTodo.status);
+            setImagePreview(editTodo.image);
+        }
+    }, [editTodo]);
+
     const handleSubmit = () => {
-        console.log('submitting');
         const newTodo = {
-            id: Date.now(),
+            id: editTodo ? editTodo.id : Date.now(),
             title: taskName,
             status: status,
             image: imagePreview,
@@ -21,7 +28,11 @@ const Modal = ({ onCloseClick }) => {
             attach: 5,
         };
 
-        dispatch(addTodo(newTodo));
+        if (editTodo) {
+            dispatch(updateTodo({ id: editTodo.id, updates: newTodo }));
+        } else {
+            dispatch(addTodo(newTodo));
+        }
 
         setTaskName('');
         setStatus('resources');
@@ -51,7 +62,7 @@ const Modal = ({ onCloseClick }) => {
             <input id='taskName' className='modalInput' type='text' value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder='Enter a task...' />
             <label htmlFor='status' className='label'>Status</label>
             <select id='status' className='modalInput' value={status} onChange={(e) => setStatus(e.target.value)}>
-                <option selected value='resources'>Resources</option> 
+                <option defaultValue value='resources'>Resources</option> 
                 <option value='todo'>To Do</option>
                 <option value='doing'>Doing</option>
                 <option value='done'>Done</option>
@@ -70,7 +81,7 @@ const Modal = ({ onCloseClick }) => {
                 </div>
             )
         }
-            <button className='modalSubmit' onClick={handleSubmit}>Add Card</button>
+            <button className='modalSubmit' onClick={handleSubmit}>{editTodo ? "Update Card" : "Add Card"}</button>
         </div>
     </div>
   )

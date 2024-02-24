@@ -78,29 +78,5 @@ export const Data = [
         image: "",  
         date: "Feb 23",
         attach: 5,     
-    },
-    {
-        id: 15,
-        title: "This is a title",
-        status: "resources", 
-        image: "https://d3nn873nee648n.cloudfront.net/900x600/17124/14-SM748247.jpg",       
-        date: "Feb 23",
-        attach: 5,
-    },
-    {
-        id: 16,
-        title: "This is a title",
-        status: "resources", 
-        image: "",    
-        date: "Feb 23",
-        attach: 5,   
-    },
-    {
-        id: 17,
-        title: "This is a title",
-        status: "resources", 
-        image: "",   
-        date: "Feb 23",
-        attach: 5,    
-    },
+    }
 ]

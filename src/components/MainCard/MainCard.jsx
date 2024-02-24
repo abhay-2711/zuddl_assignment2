@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useSelector } from 'react-redux';
 import './maincard.css'
 import ToDoCard from '../Todo/ToDoCard'
 
-const MainCard = ({status, onButtonClick}) => {
+const MainCard = ({status, onButtonClick, onEdit}) => {
 
   const categoryHeadings = {
     resources: "Resources",
@@ -14,15 +14,20 @@ const MainCard = ({status, onButtonClick}) => {
 
   const heading = categoryHeadings[status];
   
-  const filteredData = useSelector(state => state.todo.todos.filter(item => item.status === status));
+  const filteredData = useSelector((state) => state.todo.todos);
+  
+  const memoizedFilteredData = useMemo(
+    () => filteredData.filter((item) => item.status === status),
+    [filteredData, status]
+  );
 
   return (
     <div className='maincard'>
         <div>
           <h3 className='heading'>{heading}</h3>
           <div className="todo-cards-container">
-          {filteredData.map(todo => (
-            <ToDoCard key={todo.id} todo={todo} />
+          {memoizedFilteredData.map(todo => (
+            <ToDoCard key={todo.id} todo={todo} onEdit={onEdit} />
           ))}
           </div>
         </div>
