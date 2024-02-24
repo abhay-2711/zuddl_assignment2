@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import { addTodo, updateTodo } from '../../store/todoSlice';
 import './modal.css'
 
-const Modal = ({ onCloseClick, editTodo }) => {
-
+const Modal = ({ cardStatus, onCloseClick, editTodo }) => {
+    
     const dispatch = useDispatch();
     const [taskName, setTaskName] = useState('');
-    const [status, setStatus] = useState('resources');
+    const [status, setStatus] = useState(cardStatus);
     const [imagePreview, setImagePreview] = useState(null);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ const Modal = ({ onCloseClick, editTodo }) => {
         const newTodo = {
             id: editTodo ? editTodo.id : Date.now(),
             title: taskName,
-            status: status,
+            status: cardStatus ? cardStatus : status,
             image: imagePreview,
             date: new Date().toLocaleDateString(),
             attach: 5,
@@ -55,7 +55,7 @@ const Modal = ({ onCloseClick, editTodo }) => {
     <div className='modalBackground'>
         <div className='modalContainer'>
             <div className='top'>
-            <h3 className='modalTitle'>Create a Task</h3>
+            <h3 className='modalTitle'>{editTodo ? "Edit Task" : "Create a Task"}</h3>
             <button className='closeModal' onClick={() => onCloseClick()}>X</button>
             </div>
             <label htmlFor='taskName' className='label'>Task Name</label>

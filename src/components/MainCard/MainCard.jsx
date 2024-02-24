@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import './maincard.css'
 import ToDoCard from '../Todo/ToDoCard'
 
-const MainCard = ({status, onButtonClick, onEdit}) => {
+const MainCard = ({status, onStatus, onEdit}) => {
 
   const categoryHeadings = {
     resources: "Resources",
@@ -11,6 +11,10 @@ const MainCard = ({status, onButtonClick, onEdit}) => {
     doing: "Doing",
     done: "Done"
   };
+
+  const onButtonClick = () => {
+    onStatus(status);
+  }
 
   const heading = categoryHeadings[status];
   

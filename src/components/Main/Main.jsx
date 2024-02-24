@@ -8,13 +8,15 @@ import { openModal, closeModal } from '../../store/modalSlice';
 const Main = () => {
 
   const [editTodo, setEditTodo] = useState(null);
+  const [cardStatus, setCardStatus] = useState('resources');
 
   const isOpen = useSelector(state => state.modal.isOpen);
 
   const dispatch = useDispatch();
 
-  const handleClick = () => {
-    dispatch(openModal());
+  const handleClick = (status) => {
+    setCardStatus(status);
+    dispatch(openModal()); 
   }
 
   const handleCloseModal = () => {
@@ -33,10 +35,10 @@ const Main = () => {
     <div className='main-container'>
       <div className='main'>
         {category.map((status, index) => (
-          <MainCard key={index} status={status} onButtonClick={handleClick} onEdit={handleEditTodo} />
+          <MainCard key={index} status={status} onStatus={handleClick} onEdit={handleEditTodo} />
         ))}
       </div>
-      {isOpen && <Modal onCloseClick={handleCloseModal} editTodo={editTodo} />}
+      {isOpen && <Modal cardStatus={cardStatus} onCloseClick={handleCloseModal} editTodo={editTodo} />}
     </div>
   )
 }
