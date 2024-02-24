@@ -6,7 +6,7 @@ import { AiOutlinePaperClip } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Menu from '../Menu/Menu';
 
-const ToDoCard = ({todo, onEdit}) => {
+const ToDoCard = ({id, index, todo, onEdit, innerRef, draggableProps, dragHandleProps}) => {
 
   const [menu, setMenu] = useState(false);
 
@@ -22,7 +22,10 @@ const ToDoCard = ({todo, onEdit}) => {
   }
   
   return (
-    <div className='todo'>
+    <div 
+      {...draggableProps} {...dragHandleProps} ref={innerRef}
+      className='todo'
+    >
         <div className='imageContainer'>
             {image && <img src={image} className='image' alt=""/>}
         </div>

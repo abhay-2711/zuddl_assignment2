@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import './main.css'
 import MainCard from '../MainCard/MainCard'
 import Modal from '../Modal/Modal'
@@ -29,17 +30,32 @@ const Main = () => {
     dispatch(openModal());
   }
 
+  const handleOnDragEnd = (result) => {
+    
+  };
+
   const category = ['resources', 'todo', 'doing', 'done'];
 
   return (
-    <div className='main-container'>
-      <div className='main'>
-        {category.map((status, index) => (
-          <MainCard key={index} status={status} onStatus={handleClick} onEdit={handleEditTodo} />
-        ))}
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Droppable droppableId='main' direction='horizontal' type='maincard'>
+      {(provided) => (
+      <div className='main-container'
+        {...provided.droppableProps}
+        ref={provided.innerRef}
+      >
+        <div className='main'>
+          {category.map((status, index) => (
+            <MainCard key={index} id={status} index={index} status={status} onStatus={handleClick} onEdit={handleEditTodo} />
+          ))}
+
+          {provided.placeholder}
+        </div>
+        {isOpen && <Modal cardStatus={cardStatus} onCloseClick={handleCloseModal} editTodo={editTodo} />}
       </div>
-      {isOpen && <Modal cardStatus={cardStatus} onCloseClick={handleCloseModal} editTodo={editTodo} />}
-    </div>
+      )}
+      </Droppable>
+    </DragDropContext>
   )
 }
 
