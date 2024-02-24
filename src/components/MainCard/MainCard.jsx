@@ -33,6 +33,7 @@ const MainCard = ({id, index, status, onStatus, onEdit}) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          className='maincard-container'
         >
     <Droppable droppableId={index.toString()} type="card">
     {(provided) => (

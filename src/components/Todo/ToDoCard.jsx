@@ -26,25 +26,25 @@ const ToDoCard = ({id, index, todo, onEdit, innerRef, draggableProps, dragHandle
       {...draggableProps} {...dragHandleProps} ref={innerRef}
       className='todo'
     >
-        <div className='imageContainer'>
-            {image && <img src={image} className='image' alt=""/>}
+      <div className='imageContainer'>
+          {image && <img src={image} className='image' alt=""/>}
+      </div>
+      <h3 className='title'>{title}</h3>
+      <div className='footer-and-menu'>
+        <div className='todo-footer'>
+            <TfiAlignLeft className='footer' />
+            <CiCircleChevRight className='footer' />
+            <p className='footer'>{date}</p>
+            <AiOutlinePaperClip className='footer' />
+            <p className='footer'>{attach}</p>
         </div>
-        <h3 className='title'>{title}</h3>
-        <div className='footer-and-menu'>
-          <div className='todo-footer'>
-              <TfiAlignLeft className='footer' />
-              <CiCircleChevRight className='footer' />
-              <p className='footer'>{date}</p>
-              <AiOutlinePaperClip className='footer' />
-              <p className='footer'>{attach}</p>
-          </div>
-          {menu && (
-            <Menu todo={todo} onClose={handleMenuClick} onEdit={handleEdit} />
-          )}
-          <div className='todo-menu'>
-            <BsThreeDotsVertical onClick={handleMenuClick} />
-          </div>
+        {menu && (
+          <Menu todo={todo} onClose={handleMenuClick} onEdit={handleEdit} />
+        )}
+        <div className='todo-menu'>
+          <BsThreeDotsVertical onClick={handleMenuClick} />
         </div>
+      </div>
     </div>
   )
 }
