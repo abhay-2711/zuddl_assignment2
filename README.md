@@ -5,10 +5,10 @@ https://github.com/abhay-2711/zuddl_assignment2/assets/89858857/fde12059-25d1-41
 
 
 ## Dependencies Used
-React Framework
-Redux for State Management
-@hello-pangea/dnd - for Drag And Drop
-React-icons - for icons
+#### React Framework
+#### Redux for State Management
+#### @hello-pangea/dnd - for Drag And Drop
+#### React-icons - for icons
 
 ## Getting Started
 
