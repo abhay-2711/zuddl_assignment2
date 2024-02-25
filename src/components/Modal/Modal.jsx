@@ -32,7 +32,6 @@ const Modal = ({ cardStatus, onCloseClick, editTodo, onCardStatusChange }) => {
             date: new Date().toLocaleDateString(),
             attach: 5,
         };
-        console.log(cardStatus, status);
         if (editTodo) {
             dispatch(updateTodo({ id: editTodo.id, updates: newTodo }));
         } else {

@@ -4,19 +4,23 @@ import { Data } from '../utils/data';
 const initialState = {
     todos: Data,
     columns: [
-      {
+      { 
+        id: 1,
         category: 'resources',
         todos: Data.filter((todo) => todo.status === 'resources'),
       },
       {
+        id: 2,
         category: 'todo',
         todos: Data.filter((todo) => todo.status === 'todo'),
       },
       {
+        id: 3,
         category: 'doing',
         todos: Data.filter((todo) => todo.status === 'doing'),
       },
       {
+        id: 4,
         category: 'done',
         todos: Data.filter((todo) => todo.status === 'done'),
       },
@@ -66,7 +70,6 @@ export const todoSlice = createSlice({
     },   
     moveTodo: (state, action) => {
       const newColumn = action.payload;
-      console.log(newColumn);
       state.todos = newColumn.map(column => column.todos).flat();
       state.columns = newColumn;
     },     

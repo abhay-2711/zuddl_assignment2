@@ -1,5 +1,5 @@
 import React from 'react'
-import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { Draggable, Droppable } from '@hello-pangea/dnd';
 import { useSelector } from 'react-redux';
 import './maincard.css'
 import ToDoCard from '../Todo/ToDoCard'
@@ -7,7 +7,6 @@ import ToDoCard from '../Todo/ToDoCard'
 const MainCard = ({id, index, status, onStatus, onEdit}) => {
 
   const columns = useSelector(state => state.todo.columns);
-
   const categoryHeadings = {
     resources: "Resources",
     todo: "To Do",
@@ -24,7 +23,7 @@ const MainCard = ({id, index, status, onStatus, onEdit}) => {
   const filteredData = columns.find(column => column.category === status).todos;
 
   return (
-    <Draggable draggableId={id.toString()} index={index}>
+    <Draggable draggableId={id} index={index}>
       {(provided) => (
         <div
           {...provided.draggableProps}
