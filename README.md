@@ -10,7 +10,7 @@ https://github.com/abhay-2711/zuddl_assignment2/assets/89858857/fde12059-25d1-41
 #### @hello-pangea/dnd - for Drag And Drop
 #### React-icons - for icons
 
-## Getting Started
+## How To Run
 
 ## Step 1:
 ```bash
