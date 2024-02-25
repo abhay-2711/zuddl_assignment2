@@ -5,7 +5,7 @@ import MainCard from '../MainCard/MainCard'
 import Modal from '../Modal/Modal'
 import { useSelector, useDispatch } from 'react-redux';
 import { openModal, closeModal } from '../../store/modalSlice';
-import { Data } from '../../utils/data';
+import { moveTodo } from '../../store/todoSlice';
 
 const Main = () => {
 
@@ -13,12 +13,17 @@ const Main = () => {
   const [cardStatus, setCardStatus] = useState('resources');
 
   const isOpen = useSelector(state => state.modal.isOpen);
+  const columns1 = useSelector(state => state.todo.columns);
 
   const dispatch = useDispatch();
 
   const handleClick = (status) => {
     setCardStatus(status);
     dispatch(openModal()); 
+  }
+
+  const handleCardStatusChange = (status) => {
+    setCardStatus(status);
   }
 
   const handleCloseModal = () => {
@@ -31,30 +36,11 @@ const Main = () => {
     dispatch(openModal());
   }
 
-  const [columns, setColumns] = useState([
-    {
-      category: 'resources',
-      todos: Data.filter((todo) => todo.status === 'resources'),
-    },
-    {
-      category: 'todo',
-      todos: Data.filter((todo) => todo.status === 'todo'),
-    },
-    {
-      category: 'doing',
-      todos: Data.filter((todo) => todo.status === 'doing'),
-    },
-    {
-      category: 'done',
-      todos: Data.filter((todo) => todo.status === 'done'),
-    },
-  ]);
+  const [columns, setColumns] = useState(columns1);
 
-  console.log(columns);
-
-  useEffect(() => {
-    console.log(columns);
-  }, [columns]);
+  // useEffect(() => {
+  //   console.log(columns);
+  // }, [columns]);
 
   const mainCard = ["resources", "todo", "doing", "done"];
 
@@ -66,59 +52,50 @@ const Main = () => {
 
     if(source.droppableId === destination.droppableId && source.index===destination.index) return;
 
-    // handle maincard drag and drop
     if(type === 'maincard'){
-      const sourceCol = columns[source.index];
-      const destinationCol = columns[destination.index];
-      console.log(sourceCol, destinationCol);
+      // handle maincard drag and drop
+      setColumns(prevColumns => {
+        const updatedColumns = [...prevColumns];
+        const [removed] = updatedColumns.splice(source.index, 1);
+        updatedColumns.splice(destination.index, 0, removed);
 
-      const updatedColumns = [...columns];
-
-      const [removed] = updatedColumns.splice(source.index, 1);
-      updatedColumns.splice(destination.index, 0, removed);
-      
-      setColumns(updatedColumns);
-      console.log(updatedColumns);
+        return updatedColumns;
+      });
+      dispatch(moveTodo(columns));
     }else if(type === 'card'){
       if(source.droppableId === destination.droppableId){
         // same column
-        const column = columns[source.droppableId];
-        const [removed] = column.todos.splice(source.index, 1);
-        column.todos.splice(destination.index, 0, removed);
-        setColumns({
-          ...columns,
-          [destination.droppableId]: {
-            ...column,
-            todos: column.todos,
-          }
+        setColumns(prevColumns => {
+          const updatedColumns = [...prevColumns];
+          const column = columns[source.droppableId];
+          const [removed] = column.todos.splice(source.index, 1);
+          column.todos.splice(destination.index, 0, removed);
+          
+          updatedColumns[source.droppableId] = column;
+          return updatedColumns;
         });
-        console.log(columns);
+        dispatch(moveTodo(columns));
       }else{
         // different column
-        const sourceColumn = columns[source.droppableId];
-        const destinationColumn = columns[destination.droppableId];
-        const [removed] = sourceColumn.todos.splice(source.index, 1);
+        setColumns(prevColumns => {
+          const updatedColumns = [...prevColumns];
+          const sourceColumn = updatedColumns[source.droppableId];
+          const destinationColumn = updatedColumns[destination.droppableId];
+          const [removed] = sourceColumn.todos.splice(source.index, 1);
+          const updatedRemoved = { ...removed, status: mainCard[destination.droppableId] };
+          destinationColumn.todos.splice(destination.index, 0, updatedRemoved);
 
-        const updatedRemoved = { ...removed, status: mainCard[destination.droppableId] };
-        
-        destinationColumn.todos.splice(destination.index, 0, updatedRemoved);
-        setColumns({
-          ...columns,
-          [source.droppableId]: {
-            ...sourceColumn,
-            todos: sourceColumn.todos,
-          },
-          [destination.droppableId]: {
-            ...destinationColumn,
-            todos: destinationColumn.todos,
-          }
-        });
-        console.log(columns);
+          let temp = {};
+          temp = destinationColumn;
+          updatedColumns[source.droppableId] = sourceColumn;
+          updatedColumns[destination.droppableId] = temp;
+          
+          return updatedColumns;
+        })
+        dispatch(moveTodo(columns));
       }
     }
   };
-
-  const category = ['resources', 'todo', 'doing', 'done'];
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
@@ -129,13 +106,13 @@ const Main = () => {
         ref={provided.innerRef}
       >
         <div className='main'>
-          {category.map((status, index) => (
-            <MainCard key={index} id={status} index={index} status={status} onStatus={handleClick} onEdit={handleEditTodo} />
+          {columns.map((column, index) => (
+            <MainCard key={index} id={column.category} index={index} status={column.category} onStatus={handleClick} onEdit={handleEditTodo} />
           ))}
 
           {provided.placeholder}
         </div>
-        {isOpen && <Modal cardStatus={cardStatus} onCloseClick={handleCloseModal} editTodo={editTodo} />}
+        {isOpen && <Modal cardStatus={cardStatus} onCloseClick={handleCloseModal} editTodo={editTodo} onCardStatusChange={handleCardStatusChange} />}
       </div>
       )}
       </Droppable>

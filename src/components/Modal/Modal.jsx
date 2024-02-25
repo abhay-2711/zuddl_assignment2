@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { addTodo, updateTodo } from '../../store/todoSlice';
 import './modal.css'
 
-const Modal = ({ cardStatus, onCloseClick, editTodo }) => {
+const Modal = ({ cardStatus, onCloseClick, editTodo, onCardStatusChange }) => {
     
     const dispatch = useDispatch();
     const [taskName, setTaskName] = useState('');
@@ -18,6 +18,11 @@ const Modal = ({ cardStatus, onCloseClick, editTodo }) => {
         }
     }, [editTodo]);
 
+    const handleStatusChange = (e) => {
+        setStatus(e.target.value);
+        onCardStatusChange(e.target.value);
+    }
+
     const handleSubmit = () => {
         const newTodo = {
             id: editTodo ? editTodo.id : Date.now(),
@@ -27,7 +32,7 @@ const Modal = ({ cardStatus, onCloseClick, editTodo }) => {
             date: new Date().toLocaleDateString(),
             attach: 5,
         };
-
+        console.log(cardStatus, status);
         if (editTodo) {
             dispatch(updateTodo({ id: editTodo.id, updates: newTodo }));
         } else {
@@ -61,7 +66,7 @@ const Modal = ({ cardStatus, onCloseClick, editTodo }) => {
             <label htmlFor='taskName' className='label'>Task Name</label>
             <input id='taskName' className='modalInput' type='text' value={taskName} onChange={(e) => setTaskName(e.target.value)} placeholder='Enter a task...' />
             <label htmlFor='status' className='label'>Status</label>
-            <select id='status' className='modalInput' value={status} onChange={(e) => setStatus(e.target.value)}>
+            <select id='status' className='modalInput' value={status} onChange={handleStatusChange}>
                 <option defaultValue value='resources'>Resources</option> 
                 <option value='todo'>To Do</option>
                 <option value='doing'>Doing</option>

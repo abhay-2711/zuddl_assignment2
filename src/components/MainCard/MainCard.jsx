@@ -1,10 +1,12 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useSelector } from 'react-redux';
 import './maincard.css'
 import ToDoCard from '../Todo/ToDoCard'
 
 const MainCard = ({id, index, status, onStatus, onEdit}) => {
+
+  const columns = useSelector(state => state.todo.columns);
 
   const categoryHeadings = {
     resources: "Resources",
@@ -19,12 +21,7 @@ const MainCard = ({id, index, status, onStatus, onEdit}) => {
 
   const heading = categoryHeadings[status];
   
-  const filteredData = useSelector((state) => state.todo.todos);
-  
-  const memoizedFilteredData = useMemo(
-    () => filteredData.filter((item) => item.status === status),
-    [filteredData, status]
-  );
+  const filteredData = columns.find(column => column.category === status).todos;
 
   return (
     <Draggable draggableId={id.toString()} index={index}>
@@ -46,7 +43,7 @@ const MainCard = ({id, index, status, onStatus, onEdit}) => {
         <h3 className='heading'>{heading}</h3>
         <div className="todo-cards-container">
 
-        {memoizedFilteredData.map((todo, subIndex) => {
+        {filteredData.map((todo, subIndex) => {
           return (
           <Draggable key={todo.id} draggableId={todo.id.toString()} index={subIndex}>
             {(provided) => (

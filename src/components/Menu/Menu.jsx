@@ -11,7 +11,7 @@ const Menu = ({todo, onClose, onEdit}) => {
     const dispatch = useDispatch();
 
     const handleDelete = () => {
-        dispatch(deleteTodo(todo.id));
+        dispatch(deleteTodo({ id: todo.id, status: todo.status }));
         onClose();
     }
 
