@@ -1,70 +1,37 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+https://github.com/abhay-2711/zuddl_assignment2/assets/89858857/fde12059-25d1-41fd-9c3d-b9dd4e68c3fd
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Dependencies Used
+#### React Framework
+#### Redux for State Management
+#### @hello-pangea/dnd - for Drag And Drop
+#### React-icons - for icons
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## How To Run
 
-### `npm test`
+## Step 1:
+```bash
+npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Step 2:
+```bash
+npm start
+```
 
-### `npm run build`
+### How would your tables and apis change for the following scenarios. What tables and api endpoints would you add? Which tables and api endpoints would need to be updated?
+### 1. If a user can create and edit stages for a particular board. For example instead of Open > In Progress > Done if they want the stages of their task board to be Read > Working > Reviewing > Completed
+Tables: I will add a new table(stages) to store the stages for each board. This table will include columns like stage_id, board_id, name, order (to maintain the order of stages).
+API Endpoints: I will add endpoints for CRUD operations on stages for a particular board. For example, /boards/{board_id}/stages for getting all stages of a board, /boards/{board_id}/stages/{stage_id} for updating a specific stage, etc.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2. If users can comment on tasks
+Tables: I will add a new table to store comments on tasks. This table might include columns like comment_id, task_id, user_id, content, created_at, etc.
+API Endpoints: I will add endpoints for CRUD operations on comments. For example, /tasks/{task_id}/comments for getting all comments on a task, /tasks/{task_id}/comments/{comment_id} for updating a specific comment, etc.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 3. How will you do error handling?
+ I will implement error handling at the API level to catch and appropriately handle errors. This includes returning meaningful HTTP status codes (e.g., 400 for bad requests, 404 for not found resources, 500 for internal server errors, etc.).
+ I will also take care of validation error from wroong user input. And custom error handler.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
