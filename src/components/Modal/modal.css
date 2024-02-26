@@ -20,6 +20,12 @@
     padding: 25px;
 }
 
+@media (max-width: 768px) {
+    .modalContainer{
+        width: 40%;
+    }
+}
+
 .closeModal{
     width: 20px;
     height: 20px;
